@@ -1,0 +1,6 @@
+<h2>Make your own workout plan and track your progress</h2>
+<div class="row">
+  <div class="col-4 mb-4 mt-4" *ngFor="let excercise of allExcercises">
+    <app-exercise [exercise]="excercise"></app-exercise>
+  </div>
+</div>
