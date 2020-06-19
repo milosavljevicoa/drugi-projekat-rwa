@@ -8,6 +8,13 @@ import { AppComponent } from './components/app.component';
 import { MainViewComponent } from './components/main-view/main-view.component';
 import { ExerciseComponent } from './components/exercise/exercise.component';
 
+import { StoreModule, ActionReducerMap } from '@ngrx/store';
+import { exerciseReducer } from './store/workout-routine/workout-routine.reducer';
+
+const reducers: ActionReducerMap<any> = {
+  exercise: exerciseReducer,
+};
+
 @NgModule({
   declarations: [AppComponent, MainViewComponent, ExerciseComponent],
   imports: [
@@ -16,6 +23,7 @@ import { ExerciseComponent } from './components/exercise/exercise.component';
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
       dataEncapsulation: false,
     }),
+    StoreModule.forRoot(reducers),
   ],
   providers: [],
   bootstrap: [AppComponent],

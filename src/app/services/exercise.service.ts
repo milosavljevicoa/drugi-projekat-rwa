@@ -2,7 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, zip, concat } from 'rxjs';
 import Exercise from '../models/exercise.model';
-import { catchError, map, tap, mergeMap, concatAll } from 'rxjs/operators';
+import {
+  catchError,
+  map,
+  tap,
+  mergeMap,
+  concatAll,
+  defaultIfEmpty,
+} from 'rxjs/operators';
 
 interface MuscleGroupDTO {
   muscles: string;
@@ -30,43 +37,36 @@ export class ExerciseService {
     };
   }
 
-  getAllExcercises$(): Observable<Exercise> {
-    return this.http.get<Array<ExerciseDTO>>(this.excerciseUrl).pipe(
-      map((exercises: Array<ExerciseDTO>) => {
-        return exercises.map((exercise: ExerciseDTO) => {
-          return {
-            ...exercise,
-            name: this.capitalizeFirstLetterOfEveryWord(exercise.name),
-          };
-        });
-      }),
-      concatAll(),
-      mergeMap((exercise: ExerciseDTO) => {
-        return this.getMuscleGroupsForExercise(exercise.muscleGroupsIds).pipe(
-          map(
-            (muscleGourps: Array<string>) =>
-              new Exercise(exercise.id, exercise.name, muscleGourps)
-          )
-        );
+  getQueriedExercises$(exerciseName: string): Observable<Array<Exercise>> {
+    return this.http
+      .get<Array<ExerciseDTO>>(`${this.excerciseUrl}?name=${exerciseName}`)
+      .pipe(
+        mergeMap((exercises: Array<ExerciseDTO>) => {
+          if (exercises.length == 0) return of([this.createNotFoundExercise()]);
+          return zip(...this.createExercisesWithMuscleGruops$(exercises));
+        }),
+        catchError(this.handleError<Array<Exercise>>('getExcercisesByName', []))
+      );
+  }
 
-        // return zip(
-        //   ...exercise.map((exercise: ExerciseDTO) => {
-        //     return this.getMuscleGroupsForExercise(exercise.id).pipe(
-        //       map((muscleGroup: Array<string>) => {
-        //         const ex = new Exercise(exercise.id, exercise.name, [
-        //           ...muscleGroup,
-        //         ]);
-        //         console.log(ex);
-        //         return ex;
-        //         // return { ...exercise, targetedMuscels: muscleGroup };
-        //       }),
-        //       tap((x: Exercise) => console.log(x))
-        //     );
-        //   })
-        // );
-      }),
-      catchError(
-        this.handleError<Exercise>('getAllExcercises', new Exercise(-1, '', []))
+  createNotFoundExercise(): Exercise {
+    const ret: Exercise = new Exercise(-1, 'Not Found', []);
+    return ret;
+  }
+
+  createExercisesWithMuscleGruops$(
+    exercisesDTO: Array<ExerciseDTO>
+  ): Array<Observable<Exercise>> {
+    return exercisesDTO.map((exercise: ExerciseDTO) =>
+      this.getMuscleGroupsForExercise(exercise.muscleGroupsIds).pipe(
+        map(
+          (muscleGourps: Array<string>) =>
+            new Exercise(
+              exercise.id,
+              this.capitalizeFirstLetterOfEveryWord(exercise.name),
+              muscleGourps
+            )
+        )
       )
     );
   }
