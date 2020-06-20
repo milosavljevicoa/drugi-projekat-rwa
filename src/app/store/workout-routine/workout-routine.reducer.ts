@@ -10,7 +10,10 @@ export const initialState: Array<Exercise> = new Array();
 
 const _counterReducer = createReducer(
   initialState,
-  on(addExercise, (state, action) => [...state, action.exercise]),
+  on(addExercise, (state, action) => {
+    if (!state.includes(action.exercise)) [...state, action.exercise];
+    return state;
+  }),
   on(removeExercise, (state, action) =>
     state.filter((exercise: Exercise) => exercise.id !== action.exercise.id)
   ),

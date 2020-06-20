@@ -1,3 +1,16 @@
-<div class="container">
-  <app-main-view></app-main-view>
+<nav class="navbar navbar-dark bg-dark">
+  <i class="fas fa-dumbbell exercise-logo"></i>
+  <div class="ml-auto mr-1">
+    <a class="navbar-brand" routerLink="/">
+      Browse exercise
+    </a>
+
+    <a class="navbar-brand" routerLink="/workout">
+      Workout Routine
+    </a>
+  </div>
+</nav>
+
+<div class="container mt-5">
+  <router-outlet></router-outlet>
 </div>

@@ -41,12 +41,16 @@ export class ExerciseService {
     return this.http
       .get<Array<ExerciseDTO>>(`${this.excerciseUrl}?name=${exerciseName}`)
       .pipe(
-        mergeMap((exercises: Array<ExerciseDTO>) => {
-          if (exercises.length == 0) return of([this.createNotFoundExercise()]);
-          return zip(...this.createExercisesWithMuscleGruops$(exercises));
-        }),
+        mergeMap((exercise: Array<ExerciseDTO>) =>
+          this.createExercise(exercise)
+        ),
         catchError(this.handleError<Array<Exercise>>('getExcercisesByName', []))
       );
+  }
+
+  createExercise(exercises: Array<ExerciseDTO>): Observable<Array<Exercise>> {
+    if (exercises.length == 0) return of([this.createNotFoundExercise()]);
+    return zip(...this.createExercisesWithMuscleGruops$(exercises));
   }
 
   createNotFoundExercise(): Exercise {
@@ -61,11 +65,7 @@ export class ExerciseService {
       this.getMuscleGroupsForExercise(exercise.muscleGroupsIds).pipe(
         map(
           (muscleGourps: Array<string>) =>
-            new Exercise(
-              exercise.id,
-              this.capitalizeFirstLetterOfEveryWord(exercise.name),
-              muscleGourps
-            )
+            new Exercise(exercise.id, exercise.name, muscleGourps)
         )
       )
     );
@@ -84,14 +84,5 @@ export class ExerciseService {
           );
       })
     );
-  }
-
-  capitalizeFirstLetterOfEveryWord(text: string): string {
-    const modifiedText = text
-      .toLowerCase()
-      .split(' ')
-      .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-      .join(' ');
-    return modifiedText;
   }
 }

@@ -1,11 +1,11 @@
-<div class="card">
+<div class="card exercise-card">
   <div class="card-body">
     <h5 class="card-title">Exercise: {{ exercise.name }}</h5>
-    <div *ngIf="exercise.muscleGroups.length">
+    <div class="exericse-container" *ngIf="exercise.muscleGroups.length">
+      <p class="card-text">
+        Muscle groups targeted:
+      </p>
       <ul>
-        <p class="card-text">
-          Muscle groups targeted:
-        </p>
         <li *ngFor="let muscleGroup of exercise.muscleGroups">
           {{ muscleGroup }}
         </li>

@@ -10,13 +10,15 @@ import { ExerciseComponent } from './components/exercise/exercise.component';
 
 import { StoreModule, ActionReducerMap } from '@ngrx/store';
 import { exerciseReducer } from './store/workout-routine/workout-routine.reducer';
+import { AppRoutingModule } from './app-routing.module';
+import { WorkoutRoutineComponent } from './components/workout-routine/workout-routine.component';
 
 const reducers: ActionReducerMap<any> = {
   exercise: exerciseReducer,
 };
 
 @NgModule({
-  declarations: [AppComponent, MainViewComponent, ExerciseComponent],
+  declarations: [AppComponent, MainViewComponent, ExerciseComponent, WorkoutRoutineComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -24,6 +26,7 @@ const reducers: ActionReducerMap<any> = {
       dataEncapsulation: false,
     }),
     StoreModule.forRoot(reducers),
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
