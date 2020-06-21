@@ -7,18 +7,26 @@ import { InMemoryDataService } from './services/in-memory-data.service';
 import { AppComponent } from './components/app.component';
 import { MainViewComponent } from './components/main-view/main-view.component';
 import { ExerciseComponent } from './components/exercise/exercise.component';
+import { WorkoutRoutineComponent } from './components/workout-routine/workout-routine.component';
 
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule, ActionReducerMap } from '@ngrx/store';
 import { exerciseReducer } from './store/workout-routine/workout-routine.reducer';
 import { AppRoutingModule } from './app-routing.module';
-import { WorkoutRoutineComponent } from './components/workout-routine/workout-routine.component';
+
+import { environment } from '../environments/environment';
 
 const reducers: ActionReducerMap<any> = {
   exercise: exerciseReducer,
 };
 
 @NgModule({
-  declarations: [AppComponent, MainViewComponent, ExerciseComponent, WorkoutRoutineComponent],
+  declarations: [
+    AppComponent,
+    MainViewComponent,
+    ExerciseComponent,
+    WorkoutRoutineComponent,
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -26,6 +34,10 @@ const reducers: ActionReducerMap<any> = {
       dataEncapsulation: false,
     }),
     StoreModule.forRoot(reducers),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
     AppRoutingModule,
   ],
   providers: [],

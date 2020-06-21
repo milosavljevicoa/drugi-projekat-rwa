@@ -1,3 +1,20 @@
 .exercise-card {
-  min-height: 280px;
+  min-height: 250px;
+}
+
+.bottom-placement {
+  margin-top: auto;
+  margin-bottom: 10px;
+}
+
+.card-body.exercise-info-div {
+  padding-top: 3px;
+  padding-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.padding-li {
+  padding: 0;
+  padding-bottom: 5px;
 }

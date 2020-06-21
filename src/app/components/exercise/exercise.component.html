@@ -1,16 +1,24 @@
-<div class="card exercise-card">
-  <div class="card-body">
+<div class="card text-white bg-dark exercise-card">
+  <div class="card-header">
     <h5 class="card-title">Exercise: {{ exercise.name }}</h5>
-    <div class="exericse-container" *ngIf="exercise.muscleGroups.length">
-      <p class="card-text">
-        Muscle groups targeted:
-      </p>
-      <ul>
-        <li *ngFor="let muscleGroup of exercise.muscleGroups">
-          {{ muscleGroup }}
-        </li>
-      </ul>
-      <button class="btn btn-primary">Add to routine</button>
-    </div>
+  </div>
+  <div class="card-body exercise-info-div" *ngIf="exercise.muscleGroups.length">
+    <p class="card-text">
+      Muscle groups targeted:
+    </p>
+    <ul class="list-group list-group-flush pb-3">
+      <li
+        class="list-group-item bg-dark padding-li"
+        *ngFor="let muscleGroup of exercise.muscleGroups"
+      >
+        {{ muscleGroup }}
+      </li>
+    </ul>
+    <button
+      class="btn btn-primary btn-block bottom-placement"
+      (click)="onClick()"
+    >
+      Add to routine
+    </button>
   </div>
 </div>

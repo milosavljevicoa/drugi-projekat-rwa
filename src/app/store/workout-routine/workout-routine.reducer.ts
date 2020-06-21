@@ -11,7 +11,8 @@ export const initialState: Array<Exercise> = new Array();
 const _counterReducer = createReducer(
   initialState,
   on(addExercise, (state, action) => {
-    if (!state.includes(action.exercise)) [...state, action.exercise];
+    const newState: Array<Exercise> = [...state, action.exercise];
+    if (onlyExerciseInArray(state, action.exercise)) return newState;
     return state;
   }),
   on(removeExercise, (state, action) =>
@@ -19,6 +20,20 @@ const _counterReducer = createReducer(
   ),
   on(removeAll, (state) => new Array<Exercise>())
 );
+
+function onlyExerciseInArray(
+  array: Array<Exercise>,
+  exerciseToCheck: Exercise
+) {
+  let isOnlyOne: boolean = true;
+  array.forEach((exericse: Exercise) => {
+    if (exericse.id === exerciseToCheck.id) {
+      isOnlyOne = false;
+      return;
+    }
+  });
+  return isOnlyOne;
+}
 
 export function exerciseReducer(state: Array<Exercise>, action) {
   return _counterReducer(state, action);

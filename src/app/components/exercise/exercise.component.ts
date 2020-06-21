@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import Exercise from 'src/app/models/exercise.model';
 
 @Component({
@@ -8,7 +8,13 @@ import Exercise from 'src/app/models/exercise.model';
 })
 export class ExerciseComponent implements OnInit {
   @Input() exercise: Exercise;
+  @Output() onAddExericse: EventEmitter<Exercise> = new EventEmitter();
+
   constructor() {}
 
   ngOnInit(): void {}
+
+  onClick() {
+    this.onAddExericse.emit(this.exercise);
+  }
 }
