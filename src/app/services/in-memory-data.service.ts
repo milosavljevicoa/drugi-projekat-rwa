@@ -31,6 +31,85 @@ export class InMemoryDataService implements InMemoryDataService {
       { id: 9, muscles: 'lower back' },
     ];
 
-    return { excercises: excercises, muscleGroups: muscleGroups };
+    const setsAndRepsForExercise = [
+      {
+        id: 1,
+        sets: 3,
+        reps: 3,
+        effort: [],
+        isExerciseTimed: false,
+        exerciseId: 1,
+      },
+      {
+        id: 2,
+        sets: 3,
+        reps: 3,
+        effort: [],
+        isExerciseTimed: false,
+        exerciseId: 2,
+      },
+      {
+        id: 3,
+        sets: 3,
+        reps: 3,
+        effort: [],
+        isExerciseTimed: false,
+        exerciseId: 3,
+      },
+      {
+        id: 4,
+        sets: 3,
+        reps: 3,
+        effort: [],
+        isExerciseTimed: false,
+        exerciseId: 4,
+      },
+      {
+        id: 5,
+        sets: 3,
+        reps: 3,
+        effort: [],
+        isExerciseTimed: false,
+        exerciseId: 5,
+      },
+      {
+        id: 6,
+        sets: 3,
+        reps: 3,
+        effort: [],
+        isExerciseTimed: false,
+        exerciseId: 6,
+      },
+      {
+        id: 7,
+        sets: 3,
+        reps: 3,
+        effort: [],
+        isExerciseTimed: false,
+        exerciseId: 7,
+      },
+      {
+        id: 8,
+        sets: 3,
+        reps: 3,
+        effort: [],
+        isExerciseTimed: false,
+        exerciseId: 8,
+      },
+      {
+        id: 9,
+        sets: 3,
+        reps: 3,
+        effort: [],
+        isExerciseTimed: false,
+        exerciseId: 9,
+      },
+    ];
+
+    return {
+      excercises: excercises,
+      muscleGroups: muscleGroups,
+      setsAndRepsForExercise: setsAndRepsForExercise,
+    };
   }
 }

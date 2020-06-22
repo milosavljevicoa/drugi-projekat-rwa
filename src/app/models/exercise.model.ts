@@ -1,5 +1,3 @@
-import { ArrayType } from '@angular/compiler';
-
 export default class Exercise {
   constructor(
     public id: number,

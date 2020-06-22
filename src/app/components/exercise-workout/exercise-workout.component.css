@@ -1,0 +1,15 @@
+.horizontal-list {
+  list-style: none;
+  padding: 0 10px;
+}
+
+.button-width {
+  padding: 0px;
+  margin-left: 10px;
+  width: 30px;
+  height: 30px;
+}
+
+.full-width {
+  width: 100%;
+}

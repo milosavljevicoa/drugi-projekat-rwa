@@ -1,0 +1,107 @@
+<div class="card text-white bg-dark mt-3 mb-3 full-width">
+  <div class="card-body">
+    <div class="d-flex justify-content-between">
+      <h4 class="">Exercise: {{ exerciseWorkout.name }}</h4>
+      <button class="btn btn-outline-light ml-5 w-auto">
+        <i class="far fa-save"></i>
+      </button>
+    </div>
+    <hr />
+    <h5 class="card-text d-inline">Muscle groups targeted:</h5>
+
+    <ul class="list-group list-group-flush pb-3 flex-row d-inline">
+      <li
+        class="horizontal-list d-inline"
+        *ngFor="let muscleGroup of exerciseWorkout.muscleGroups"
+      >
+        {{ muscleGroup }}
+      </li>
+    </ul>
+    <hr />
+
+    <h5 class="card-text">Sets for this exercise</h5>
+
+    <p class="card-text d-inline mr-5">
+      Number of Sets: {{ exerciseWorkout.setsAndReps.sets }}
+      <button
+        class="d-inline btn btn-outline-light button-width"
+        (click)="increaseNumberOfSets()"
+      >
+        +
+      </button>
+      <button
+        class="d-inline btn btn-outline-light button-width"
+        (click)="decreaseNumberOfSets()"
+      >
+        -
+      </button>
+    </p>
+    <hr />
+
+    <div
+      *ngIf="!exerciseWorkout.setsAndReps.isExerciseTimed; else timedExercise"
+    >
+      <div
+        class="row m-0 mb-3"
+        *ngFor="let singleRep of exerciseWorkout.setsAndReps.reps; index as i"
+      >
+        <div class="col-3">
+          <h6 class="d-inline mr-2">Set: {{ i + 1 }}</h6>
+        </div>
+        <div class="col-5">
+          Reps: {{ singleRep }}
+          <button
+            class="d-inline btn btn-outline-light button-width"
+            (click)="increaseNumberOfReps(i)"
+          >
+            +
+          </button>
+          <button
+            class="d-inline btn btn-outline-light button-width"
+            (click)="decreaseNumberOfReps(i)"
+          >
+            -
+          </button>
+        </div>
+        <div class="col-4">
+          <input
+            type="number"
+            [(ngModel)]="exerciseWorkout.setsAndReps.efforts[i]"
+            min="0"
+            style="width: 55px;"
+          />
+          kg
+        </div>
+      </div>
+    </div>
+
+    <ng-template #timedExercise>
+      <div class="row m-0 mb-3" *ngFor="let singleRep of numberOfReps">
+        <div class="col-3">
+          <h6 class="d-inline mr-2">Set {{ singleRep }}:</h6>
+        </div>
+
+        <div class="col-7">
+          <p class="d-inline mr-1">Minutes Per Set:</p>
+          <input
+            type="number"
+            [(ngModel)]="exerciseWorkout.setsAndReps.efforts[singleRep - 1]"
+            min="0"
+            style="width: 50px;"
+          />
+        </div>
+      </div>
+    </ng-template>
+
+    <hr />
+    <div>
+      <select
+        class="custom-select w-75"
+        [(ngModel)]="exerciseWorkout.setsAndReps.isExerciseTimed"
+      >
+        <option [ngValue]="false">weight</option>
+        <option [ngValue]="true">time</option>
+      </select>
+    </div>
+  </div>
+</div>

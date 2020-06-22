@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './services/in-memory-data.service';
 
@@ -11,10 +13,13 @@ import { WorkoutRoutineComponent } from './components/workout-routine/workout-ro
 
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule, ActionReducerMap } from '@ngrx/store';
+
 import { exerciseReducer } from './store/workout-routine/workout-routine.reducer';
+
 import { AppRoutingModule } from './app-routing.module';
 
 import { environment } from '../environments/environment';
+import { ExerciseWorkoutComponent } from './components/exercise-workout/exercise-workout.component';
 
 const reducers: ActionReducerMap<any> = {
   exercise: exerciseReducer,
@@ -26,8 +31,10 @@ const reducers: ActionReducerMap<any> = {
     MainViewComponent,
     ExerciseComponent,
     WorkoutRoutineComponent,
+    ExerciseWorkoutComponent,
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
