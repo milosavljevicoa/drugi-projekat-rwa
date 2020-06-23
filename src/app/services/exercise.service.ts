@@ -1,15 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, zip, concat } from 'rxjs';
 import Exercise from '../models/exercise.model';
-import {
-  catchError,
-  map,
-  tap,
-  mergeMap,
-  concatAll,
-  defaultIfEmpty,
-} from 'rxjs/operators';
+import { catchError, map, mergeMap, concatAll, first } from 'rxjs/operators';
+import SetsAndReps from '../models/sets-and-reps';
+import ExerciseWorkout from '../models/exercise-workout.model';
 
 interface MuscleGroupDTO {
   muscles: string;
@@ -20,6 +15,15 @@ interface ExerciseDTO {
   muscleGroupsIds: Array<number>;
 }
 
+interface SetsAndRepsDTO {
+  id: number;
+  sets: number;
+  reps: Array<number>;
+  effort: Array<number>;
+  isExerciseTimed: boolean;
+  exerciseId: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -27,7 +31,10 @@ export class ExerciseService {
   private dbUrl = 'api';
   private excerciseUrl = `${this.dbUrl}/excercises`;
   private muscleGroupUrl = `${this.dbUrl}/muscleGroups`;
-
+  private setsAndRepsUrl = `${this.dbUrl}/setsAndRepsForExercise`;
+  private httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+  };
   constructor(private http: HttpClient) {}
 
   private handleError<T>(operation = 'database api', result?: T) {
@@ -84,5 +91,50 @@ export class ExerciseService {
           );
       })
     );
+  }
+
+  getSetsAndRepsForExercise$(exercise: Exercise): Observable<ExerciseWorkout> {
+    return this.http
+      .get<Array<SetsAndRepsDTO>>(
+        `${this.setsAndRepsUrl}?exerciseId=${exercise.id}`
+      )
+      .pipe(
+        concatAll(),
+        first(),
+        map((setsAndRepsDTO: SetsAndRepsDTO) => {
+          const setsAndReps: SetsAndReps = new SetsAndReps(
+            setsAndRepsDTO.id,
+            setsAndRepsDTO.sets,
+            setsAndRepsDTO.reps,
+            setsAndRepsDTO.effort,
+            setsAndRepsDTO.isExerciseTimed
+          );
+          const exerciseWorkout = ExerciseWorkout.createExericseWorkout(
+            exercise,
+            setsAndReps
+          );
+
+          return exerciseWorkout;
+        })
+      );
+  }
+
+  updateSetsAndRepsForExercise(exercise: ExerciseWorkout): Observable<any> {
+    const setsAndReps: SetsAndReps = exercise.setsAndReps.makeACopy();
+    const updatedSetsAndReps: SetsAndRepsDTO = {
+      id: setsAndReps.id,
+      sets: setsAndReps.sets,
+      isExerciseTimed: setsAndReps.isExerciseTimed,
+      effort: [...setsAndReps.efforts],
+      reps: [...setsAndReps.reps],
+      exerciseId: exercise.id,
+    };
+    return this.http
+      .put<SetsAndRepsDTO>(
+        this.setsAndRepsUrl,
+        updatedSetsAndReps,
+        this.httpOptions
+      )
+      .pipe(catchError(this.handleError<any>('updateSetsAndReps')));
   }
 }

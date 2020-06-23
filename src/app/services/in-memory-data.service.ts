@@ -35,7 +35,7 @@ export class InMemoryDataService implements InMemoryDataService {
       {
         id: 1,
         sets: 3,
-        reps: 3,
+        reps: [],
         effort: [],
         isExerciseTimed: false,
         exerciseId: 1,
@@ -43,7 +43,7 @@ export class InMemoryDataService implements InMemoryDataService {
       {
         id: 2,
         sets: 3,
-        reps: 3,
+        reps: [],
         effort: [],
         isExerciseTimed: false,
         exerciseId: 2,
@@ -51,7 +51,7 @@ export class InMemoryDataService implements InMemoryDataService {
       {
         id: 3,
         sets: 3,
-        reps: 3,
+        reps: [],
         effort: [],
         isExerciseTimed: false,
         exerciseId: 3,
@@ -59,7 +59,7 @@ export class InMemoryDataService implements InMemoryDataService {
       {
         id: 4,
         sets: 3,
-        reps: 3,
+        reps: [],
         effort: [],
         isExerciseTimed: false,
         exerciseId: 4,
@@ -67,7 +67,7 @@ export class InMemoryDataService implements InMemoryDataService {
       {
         id: 5,
         sets: 3,
-        reps: 3,
+        reps: [],
         effort: [],
         isExerciseTimed: false,
         exerciseId: 5,
@@ -75,7 +75,7 @@ export class InMemoryDataService implements InMemoryDataService {
       {
         id: 6,
         sets: 3,
-        reps: 3,
+        reps: [],
         effort: [],
         isExerciseTimed: false,
         exerciseId: 6,
@@ -83,7 +83,7 @@ export class InMemoryDataService implements InMemoryDataService {
       {
         id: 7,
         sets: 3,
-        reps: 3,
+        reps: [],
         effort: [],
         isExerciseTimed: false,
         exerciseId: 7,
@@ -91,7 +91,7 @@ export class InMemoryDataService implements InMemoryDataService {
       {
         id: 8,
         sets: 3,
-        reps: 3,
+        reps: [],
         effort: [],
         isExerciseTimed: false,
         exerciseId: 8,
@@ -99,7 +99,7 @@ export class InMemoryDataService implements InMemoryDataService {
       {
         id: 9,
         sets: 3,
-        reps: 3,
+        reps: [],
         effort: [],
         isExerciseTimed: false,
         exerciseId: 9,

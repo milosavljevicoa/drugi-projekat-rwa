@@ -3,30 +3,34 @@ import {
   addExercise,
   removeAll,
   removeExercise,
+  addExerciseSuccess,
 } from './workout-routine.action';
-import Exercise from 'src/app/models/exercise.model';
+import ExerciseWorkout from 'src/app/models/exercise-workout.model';
 
-export const initialState: Array<Exercise> = new Array();
+export const initialState: Array<ExerciseWorkout> = new Array();
 
 const _counterReducer = createReducer(
   initialState,
-  on(addExercise, (state, action) => {
-    const newState: Array<Exercise> = [...state, action.exercise];
+  on(addExercise),
+  on(addExerciseSuccess, (state, action) => {
+    const newState: Array<ExerciseWorkout> = [...state, action.exercise];
     if (onlyExerciseInArray(state, action.exercise)) return newState;
     return state;
   }),
   on(removeExercise, (state, action) =>
-    state.filter((exercise: Exercise) => exercise.id !== action.exercise.id)
+    state.filter(
+      (exercise: ExerciseWorkout) => exercise.id !== action.exercise.id
+    )
   ),
-  on(removeAll, (state) => new Array<Exercise>())
+  on(removeAll, (state) => new Array<ExerciseWorkout>())
 );
 
 function onlyExerciseInArray(
-  array: Array<Exercise>,
-  exerciseToCheck: Exercise
+  array: Array<ExerciseWorkout>,
+  exerciseToCheck: ExerciseWorkout
 ) {
   let isOnlyOne: boolean = true;
-  array.forEach((exericse: Exercise) => {
+  array.forEach((exericse: ExerciseWorkout) => {
     if (exericse.id === exerciseToCheck.id) {
       isOnlyOne = false;
       return;
@@ -35,6 +39,6 @@ function onlyExerciseInArray(
   return isOnlyOne;
 }
 
-export function exerciseReducer(state: Array<Exercise>, action) {
+export function exerciseReducer(state: Array<ExerciseWorkout>, action) {
   return _counterReducer(state, action);
 }

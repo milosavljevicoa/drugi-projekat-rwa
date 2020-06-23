@@ -20,6 +20,8 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { environment } from '../environments/environment';
 import { ExerciseWorkoutComponent } from './components/exercise-workout/exercise-workout.component';
+import { EffectsModule } from '@ngrx/effects';
+import { WorkoutRoutineEffects } from './store/workout-routine/workout-routine.effects';
 
 const reducers: ActionReducerMap<any> = {
   exercise: exerciseReducer,
@@ -46,6 +48,7 @@ const reducers: ActionReducerMap<any> = {
       logOnly: environment.production,
     }),
     AppRoutingModule,
+    EffectsModule.forRoot([WorkoutRoutineEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent],

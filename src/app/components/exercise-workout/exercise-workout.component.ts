@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ExerciseWorkout } from 'src/app/models/exercise-workout.model';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import ExerciseWorkout from 'src/app/models/exercise-workout.model';
 
 @Component({
   selector: 'app-exercise-workout',
@@ -7,37 +7,43 @@ import { ExerciseWorkout } from 'src/app/models/exercise-workout.model';
   styleUrls: ['./exercise-workout.component.css'],
 })
 export class ExerciseWorkoutComponent implements OnInit {
-  @Input() exerciseWorkout: ExerciseWorkout;
-  public numberOfReps: Array<number>;
+  @Input() exercise: ExerciseWorkout;
+  @Output() handleUpdateSetsAndRepsForExercise: EventEmitter<
+    ExerciseWorkout
+  > = new EventEmitter();
+  @Output() handleRemoveExerciseFromRoute: EventEmitter<
+    ExerciseWorkout
+  > = new EventEmitter();
+
+  public copyOfExercise: ExerciseWorkout;
 
   constructor() {}
 
   ngOnInit(): void {
-    this.updateNumberOfSets();
-    console.log(this.exerciseWorkout);
-  }
-
-  updateNumberOfSets() {
-    this.numberOfReps = [
-      ...Array(this.exerciseWorkout.setsAndReps.sets).keys(),
-    ].map((i: number) => i + 1);
+    this.copyOfExercise = this.exercise.makeACopy();
   }
 
   increaseNumberOfSets(): void {
-    this.exerciseWorkout.setsAndReps.incrementSets();
-    this.updateNumberOfSets();
+    this.copyOfExercise.setsAndReps.incrementSets();
   }
 
   decreaseNumberOfSets(): void {
-    this.exerciseWorkout.setsAndReps.decrementSets();
-    this.updateNumberOfSets();
+    this.copyOfExercise.setsAndReps.decrementSets();
   }
 
   increaseNumberOfReps(index: number): void {
-    this.exerciseWorkout.setsAndReps.incrementReps(index);
+    this.copyOfExercise.setsAndReps.incrementReps(index);
   }
 
   decreaseNumberOfReps(index: number): void {
-    this.exerciseWorkout.setsAndReps.decrementReps(index);
+    this.copyOfExercise.setsAndReps.decrementReps(index);
+  }
+
+  updateSetsAndRepsForExercise(): void {
+    this.handleUpdateSetsAndRepsForExercise.emit(this.exercise);
+  }
+
+  removeExerciseFromWorkout(): void {
+    this.handleRemoveExerciseFromRoute.emit(this.exercise);
   }
 }

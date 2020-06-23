@@ -13,3 +13,10 @@
 .full-width {
   width: 100%;
 }
+
+.w-35 {
+  width: 35%;
+}
+.h-fit-content {
+  height: fit-content;
+}
