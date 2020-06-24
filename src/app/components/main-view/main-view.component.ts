@@ -4,7 +4,7 @@ import { ExerciseService } from 'src/app/services/exercise.service';
 import Exercise from 'src/app/models/exercise.model';
 
 import { Subject, Observable } from 'rxjs';
-import { debounceTime, switchMap, map } from 'rxjs/operators';
+import { debounceTime, switchMap, map, tap } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 import * as ExerciseActions from '../../store/workout-routine/workout-routine.action';
@@ -17,6 +17,7 @@ import ExerciseWorkout from 'src/app/models/exercise-workout.model';
 })
 export class MainViewComponent implements OnInit {
   public exerciseToDisplay: Array<Exercise>;
+  public showLoadingSpinner: boolean = true;
 
   private searchedExercises$: Subject<string>;
   private selectedExercisesForWorkout$: Observable<Array<ExerciseWorkout>>;
@@ -32,10 +33,13 @@ export class MainViewComponent implements OnInit {
     );
 
     this.searchedExercises$ = new Subject();
-    //TODO: make different http request when page is loaded and when user writes, delay time is affecting UX
     this.searchedExercises$
       .pipe(
-        debounceTime(500),
+        tap((_) => {
+          this.showLoadingSpinner = true;
+          this.exerciseToDisplay = [];
+        }),
+        debounceTime(200),
         switchMap((exerciseName: string) => {
           return this.exerciseService.getQueriedExercises$(exerciseName);
         }),
@@ -47,9 +51,10 @@ export class MainViewComponent implements OnInit {
           );
         })
       )
-      .subscribe(
-        (exercises: Array<Exercise>) => (this.exerciseToDisplay = exercises)
-      );
+      .subscribe((exercises: Array<Exercise>) => {
+        this.showLoadingSpinner = false;
+        this.exerciseToDisplay = exercises;
+      });
 
     this.searchExerciseByName('');
   }

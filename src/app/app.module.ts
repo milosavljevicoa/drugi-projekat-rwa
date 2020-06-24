@@ -22,6 +22,7 @@ import { environment } from '../environments/environment';
 import { ExerciseWorkoutComponent } from './components/exercise-workout/exercise-workout.component';
 import { EffectsModule } from '@ngrx/effects';
 import { WorkoutRoutineEffects } from './store/workout-routine/workout-routine.effects';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 const reducers: ActionReducerMap<any> = {
   exercise: exerciseReducer,
@@ -34,6 +35,7 @@ const reducers: ActionReducerMap<any> = {
     ExerciseComponent,
     WorkoutRoutineComponent,
     ExerciseWorkoutComponent,
+    LoadingSpinnerComponent,
   ],
   imports: [
     FormsModule,

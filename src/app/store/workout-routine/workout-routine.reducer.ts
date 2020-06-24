@@ -1,9 +1,11 @@
-import { createReducer, on } from '@ngrx/store';
+import { createReducer, on, State } from '@ngrx/store';
 import {
   addExercise,
   removeAll,
   removeExercise,
   addExerciseSuccess,
+  updateExercise,
+  updateExerciseSuccess,
 } from './workout-routine.action';
 import ExerciseWorkout from 'src/app/models/exercise-workout.model';
 
@@ -14,29 +16,37 @@ const _counterReducer = createReducer(
   on(addExercise),
   on(addExerciseSuccess, (state, action) => {
     const newState: Array<ExerciseWorkout> = [...state, action.exercise];
-    if (onlyExerciseInArray(state, action.exercise)) return newState;
-    return state;
+    return doesArrayHaveExercise(state, action.exercise) ? state : newState;
+  }),
+  on(updateExercise),
+  on(updateExerciseSuccess, (state, action) => {
+    const updatedExerciseToBePlaced = action.exercise;
+    return state.map((exercise: ExerciseWorkout) =>
+      exercise.id === updatedExerciseToBePlaced.id
+        ? updatedExerciseToBePlaced
+        : exercise
+    );
   }),
   on(removeExercise, (state, action) =>
     state.filter(
       (exercise: ExerciseWorkout) => exercise.id !== action.exercise.id
     )
   ),
-  on(removeAll, (state) => new Array<ExerciseWorkout>())
+  on(removeAll, () => new Array<ExerciseWorkout>())
 );
 
-function onlyExerciseInArray(
+function doesArrayHaveExercise(
   array: Array<ExerciseWorkout>,
   exerciseToCheck: ExerciseWorkout
 ) {
-  let isOnlyOne: boolean = true;
+  let doesArrayContainExericse: boolean = false;
   array.forEach((exericse: ExerciseWorkout) => {
     if (exericse.id === exerciseToCheck.id) {
-      isOnlyOne = false;
+      doesArrayContainExericse = true;
       return;
     }
   });
-  return isOnlyOne;
+  return doesArrayContainExericse;
 }
 
 export function exerciseReducer(state: Array<ExerciseWorkout>, action) {

@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, zip, concat } from 'rxjs';
 import Exercise from '../models/exercise.model';
 import { catchError, map, mergeMap, concatAll, first } from 'rxjs/operators';
-import SetsAndReps from '../models/sets-and-reps';
+import SetsAndReps from '../models/sets-and-reps.model';
 import ExerciseWorkout from '../models/exercise-workout.model';
 
 interface MuscleGroupDTO {

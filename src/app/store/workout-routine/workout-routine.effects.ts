@@ -33,4 +33,24 @@ export class WorkoutRoutineEffects {
       catchError(() => EMPTY)
     )
   );
+
+  updateSetsAndRepsForExercise: Observable<any> = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ExerciseRoutineActions.updateExercise),
+      map((action) => action.exercise),
+      mergeMap((exerciseToUpdate: ExerciseWorkout) =>
+        this.exerciseService
+          .updateSetsAndRepsForExercise(exerciseToUpdate)
+          .pipe(map((_) => exerciseToUpdate))
+      ),
+      mergeMap((updatedExercise: ExerciseWorkout) =>
+        of(
+          ExerciseRoutineActions.updateExerciseSuccess({
+            exercise: updatedExercise,
+          })
+        )
+      ),
+      catchError(() => EMPTY)
+    )
+  );
 }

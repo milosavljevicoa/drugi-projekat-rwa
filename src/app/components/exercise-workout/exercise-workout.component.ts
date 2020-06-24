@@ -15,35 +15,35 @@ export class ExerciseWorkoutComponent implements OnInit {
     ExerciseWorkout
   > = new EventEmitter();
 
-  public copyOfExercise: ExerciseWorkout;
+  public exerciseThatIsDisplayed: ExerciseWorkout;
 
   constructor() {}
 
   ngOnInit(): void {
-    this.copyOfExercise = this.exercise.makeACopy();
+    this.exerciseThatIsDisplayed = this.exercise.makeACopy();
   }
 
   increaseNumberOfSets(): void {
-    this.copyOfExercise.setsAndReps.incrementSets();
+    this.exerciseThatIsDisplayed.setsAndReps.incrementSets();
   }
 
   decreaseNumberOfSets(): void {
-    this.copyOfExercise.setsAndReps.decrementSets();
+    this.exerciseThatIsDisplayed.setsAndReps.decrementSets();
   }
 
   increaseNumberOfReps(index: number): void {
-    this.copyOfExercise.setsAndReps.incrementReps(index);
+    this.exerciseThatIsDisplayed.setsAndReps.incrementReps(index);
   }
 
   decreaseNumberOfReps(index: number): void {
-    this.copyOfExercise.setsAndReps.decrementReps(index);
+    this.exerciseThatIsDisplayed.setsAndReps.decrementReps(index);
   }
 
   updateSetsAndRepsForExercise(): void {
-    this.handleUpdateSetsAndRepsForExercise.emit(this.exercise);
+    this.handleUpdateSetsAndRepsForExercise.emit(this.exerciseThatIsDisplayed);
   }
 
   removeExerciseFromWorkout(): void {
-    this.handleRemoveExerciseFromRoute.emit(this.exercise);
+    this.handleRemoveExerciseFromRoute.emit(this.exerciseThatIsDisplayed);
   }
 }

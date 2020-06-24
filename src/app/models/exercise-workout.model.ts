@@ -1,5 +1,5 @@
 import Exercise from './exercise.model';
-import SetsAndReps from './sets-and-reps';
+import SetsAndReps from './sets-and-reps.model';
 
 export default class ExerciseWorkout extends Exercise {
   private constructor(

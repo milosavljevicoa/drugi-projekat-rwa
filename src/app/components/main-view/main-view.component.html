@@ -7,9 +7,9 @@
   placeholder="specific exercise"
   class="mb-2 mr-3"
 />
+<h5 class="lead">List of avaliable exercises</h5>
+<app-loading-spinner *ngIf="showLoadingSpinner"></app-loading-spinner>
 <div class="row">
-  <h5 class="col-12 lead">List of avaliable exercises</h5>
-  <div class="card-deck"></div>
   <div class="col-md-4 mb-4 mt-4" *ngFor="let excercise of exerciseToDisplay">
     <app-exercise
       (onAddExericse)="addExerciseToRoutine($event)"

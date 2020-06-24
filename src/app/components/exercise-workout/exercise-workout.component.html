@@ -1,7 +1,7 @@
 <div class="card text-white bg-dark mt-3 mb-3 full-width">
   <div class="card-body">
     <div class="d-flex justify-content-between">
-      <h4 class="">Exercise: {{ copyOfExercise.name }}</h4>
+      <h4 class="">Exercise: {{ exerciseThatIsDisplayed.name }}</h4>
       <div class="icons w-35 h-fit-content d-flex justify-content-end">
         <button
           class="btn btn-outline-light mr-2"
@@ -24,7 +24,7 @@
     <ul class="list-group list-group-flush pb-3 flex-row d-inline">
       <li
         class="horizontal-list d-inline"
-        *ngFor="let muscleGroup of copyOfExercise.muscleGroups"
+        *ngFor="let muscleGroup of exerciseThatIsDisplayed.muscleGroups"
       >
         {{ muscleGroup }}
       </li>
@@ -34,7 +34,7 @@
     <h5 class="card-text">Sets for this exercise</h5>
 
     <p class="card-text d-inline mr-5">
-      Number of Sets: {{ copyOfExercise.setsAndReps.sets }}
+      Number of Sets: {{ exerciseThatIsDisplayed.setsAndReps.sets }}
       <button
         class="d-inline btn btn-outline-light button-width"
         (click)="increaseNumberOfSets()"
@@ -51,11 +51,17 @@
     <hr />
 
     <div
-      *ngIf="!copyOfExercise.setsAndReps.isExerciseTimed; else timedExercise"
+      *ngIf="
+        !exerciseThatIsDisplayed.setsAndReps.isExerciseTimed;
+        else timedExercise
+      "
     >
       <div
         class="row m-0 mb-3"
-        *ngFor="let singleRep of copyOfExercise.setsAndReps.reps; index as i"
+        *ngFor="
+          let singleRep of exerciseThatIsDisplayed.setsAndReps.reps;
+          index as i
+        "
       >
         <div class="col-2 p-0">
           <h6 class="d-inline mr-2 p-0">Set: {{ i + 1 }}</h6>
@@ -78,7 +84,7 @@
         <div class="col-4 p-0">
           <input
             type="number"
-            [(ngModel)]="copyOfExercise.setsAndReps.efforts[i]"
+            [(ngModel)]="exerciseThatIsDisplayed.setsAndReps.efforts[i]"
             min="0"
             style="width: 55px;"
           />
@@ -90,7 +96,10 @@
     <ng-template #timedExercise>
       <div
         class="row m-0 mb-3"
-        *ngFor="let singleRep of copyOfExercise.setsAndReps.reps; index as i"
+        *ngFor="
+          let singleRep of exerciseThatIsDisplayed.setsAndReps.reps;
+          index as i
+        "
       >
         <div class="col-2 p-0">
           <h6 class="d-inline mr-2 p-0">Set: {{ i + 1 }}</h6>
@@ -100,7 +109,7 @@
           <p class="d-inline mr-1">Minutes Per Set:</p>
           <input
             type="number"
-            [(ngModel)]="copyOfExercise.setsAndReps.efforts[i]"
+            [(ngModel)]="exerciseThatIsDisplayed.setsAndReps.efforts[i]"
             min="0"
             style="width: 50px;"
           />
@@ -112,7 +121,7 @@
     <div>
       <select
         class="custom-select w-75"
-        [(ngModel)]="copyOfExercise.setsAndReps.isExerciseTimed"
+        [(ngModel)]="exerciseThatIsDisplayed.setsAndReps.isExerciseTimed"
       >
         <option [ngValue]="false">weight</option>
         <option [ngValue]="true">time</option>
