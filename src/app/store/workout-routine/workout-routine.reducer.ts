@@ -1,54 +1,47 @@
-import { createReducer, on, State } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import {
   addExercise,
-  removeAll,
-  removeExercise,
   addExerciseSuccess,
   updateExercise,
-  updateExerciseSuccess,
+  removeExercise,
+  updateExerciseSuccesss,
 } from './workout-routine.action';
 import ExerciseWorkout from 'src/app/models/exercise-workout.model';
+import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
-export const initialState: Array<ExerciseWorkout> = new Array();
+export const exerciseRoutineKey = 'exerciseSate';
 
-const _counterReducer = createReducer(
-  initialState,
-  on(addExercise),
-  on(addExerciseSuccess, (state, action) => {
-    const newState: Array<ExerciseWorkout> = [...state, action.exercise];
-    return doesArrayHaveExercise(state, action.exercise) ? state : newState;
-  }),
-  on(updateExercise),
-  on(updateExerciseSuccess, (state, action) => {
-    const updatedExerciseToBePlaced = action.exercise;
-    return state.map((exercise: ExerciseWorkout) =>
-      exercise.id === updatedExerciseToBePlaced.id
-        ? updatedExerciseToBePlaced
-        : exercise
-    );
-  }),
-  on(removeExercise, (state, action) =>
-    state.filter(
-      (exercise: ExerciseWorkout) => exercise.id !== action.exercise.id
-    )
-  ),
-  on(removeAll, () => new Array<ExerciseWorkout>())
-);
-
-function doesArrayHaveExercise(
-  array: Array<ExerciseWorkout>,
-  exerciseToCheck: ExerciseWorkout
-) {
-  let doesArrayContainExericse: boolean = false;
-  array.forEach((exericse: ExerciseWorkout) => {
-    if (exericse.id === exerciseToCheck.id) {
-      doesArrayContainExericse = true;
-      return;
-    }
-  });
-  return doesArrayContainExericse;
+export interface WokroutRoutineState extends EntityState<ExerciseWorkout> {
+  numberOfExercises: number;
 }
 
-export function exerciseReducer(state: Array<ExerciseWorkout>, action) {
-  return _counterReducer(state, action);
+export const exerciseAdapter: EntityAdapter<ExerciseWorkout> = createEntityAdapter<
+  ExerciseWorkout
+>({
+  selectId: (exercise: ExerciseWorkout) => exercise.id,
+});
+
+export const initialState = exerciseAdapter.getInitialState({
+  numberOfExercises: 0,
+});
+
+const _exerciseReducer = createReducer(
+  initialState,
+  on(addExercise),
+  on(addExerciseSuccess, (state, { exercise }) => {
+    return exerciseAdapter.addOne(exercise, state);
+  }),
+  on(updateExercise),
+  on(updateExerciseSuccesss, (state, { exercise }) => {
+    return exerciseAdapter.updateOne(exercise, state);
+  }),
+  on(removeExercise, (state, { exerciseId }) =>
+    exerciseAdapter.removeOne(exerciseId, state)
+  )
+  // ),
+  // on(removeAll, () => new Array<ExerciseWorkout>())
+);
+
+export function exerciseReducer(state, action) {
+  return _exerciseReducer(state, action);
 }

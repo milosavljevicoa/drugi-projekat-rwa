@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of, zip, concat } from 'rxjs';
+import { Observable, of, zip } from 'rxjs';
 import Exercise from '../models/exercise.model';
 import { catchError, map, mergeMap, concatAll, first } from 'rxjs/operators';
 import SetsAndReps from '../models/sets-and-reps.model';
@@ -19,7 +19,7 @@ interface SetsAndRepsDTO {
   id: number;
   sets: number;
   reps: Array<number>;
-  effort: Array<number>;
+  efforts: Array<number>;
   isExerciseTimed: boolean;
   exerciseId: number;
 }
@@ -94,38 +94,43 @@ export class ExerciseService {
   }
 
   getSetsAndRepsForExercise$(exercise: Exercise): Observable<ExerciseWorkout> {
-    return this.http
-      .get<Array<SetsAndRepsDTO>>(
-        `${this.setsAndRepsUrl}?exerciseId=${exercise.id}`
-      )
-      .pipe(
-        concatAll(),
-        first(),
-        map((setsAndRepsDTO: SetsAndRepsDTO) => {
-          const setsAndReps: SetsAndReps = new SetsAndReps(
-            setsAndRepsDTO.id,
-            setsAndRepsDTO.sets,
-            setsAndRepsDTO.reps,
-            setsAndRepsDTO.effort,
-            setsAndRepsDTO.isExerciseTimed
-          );
-          const exerciseWorkout = ExerciseWorkout.createExericseWorkout(
-            exercise,
-            setsAndReps
-          );
-
-          return exerciseWorkout;
-        })
-      );
+    return (
+      this.http
+        .get<Array<SetsAndRepsDTO>>(
+          `${this.setsAndRepsUrl}?exerciseId=${exercise.id}`
+        )
+        //posle update-a nece ovo da radi
+        .pipe(
+          concatAll(),
+          first(),
+          map((setsAndRepsDTO: SetsAndRepsDTO) => {
+            const setsAndReps: SetsAndReps = new SetsAndReps(
+              setsAndRepsDTO.id,
+              setsAndRepsDTO.sets,
+              setsAndRepsDTO.reps,
+              setsAndRepsDTO.efforts,
+              setsAndRepsDTO.isExerciseTimed
+            );
+            const exerciseWorkout = ExerciseWorkout.createExericseWorkout(
+              exercise,
+              setsAndReps
+            );
+            return exerciseWorkout;
+          }),
+          catchError(this.handleError<any>('getSetsAndReps'))
+        )
+    );
   }
 
-  updateSetsAndRepsForExercise(exercise: ExerciseWorkout): Observable<any> {
+  updateSetsAndRepsForExercise$(
+    exercise: ExerciseWorkout
+  ): Observable<SetsAndRepsDTO> {
     const setsAndReps: SetsAndReps = exercise.setsAndReps.makeACopy();
     const updatedSetsAndReps: SetsAndRepsDTO = {
       id: setsAndReps.id,
       sets: setsAndReps.sets,
       isExerciseTimed: setsAndReps.isExerciseTimed,
-      effort: [...setsAndReps.efforts],
+      efforts: [...setsAndReps.efforts],
       reps: [...setsAndReps.reps],
       exerciseId: exercise.id,
     };

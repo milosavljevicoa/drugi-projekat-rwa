@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import ExerciseWorkout from 'src/app/models/exercise-workout.model';
+import Exercise from 'src/app/models/exercise.model';
 
 @Component({
   selector: 'app-exercise-workout',
@@ -20,7 +21,17 @@ export class ExerciseWorkoutComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.exerciseThatIsDisplayed = this.exercise.makeACopy();
+    this.exerciseThatIsDisplayed = this.getExerciseWorkOutCopy(this.exercise);
+  }
+
+  getExerciseWorkOutCopy(exercise: ExerciseWorkout): ExerciseWorkout {
+    const exericse = new Exercise(exercise.id, exercise.name, [
+      ...exercise.muscleGroups,
+    ]);
+    return ExerciseWorkout.createExericseWorkout(
+      exericse,
+      exercise.setsAndReps.makeACopy()
+    );
   }
 
   increaseNumberOfSets(): void {

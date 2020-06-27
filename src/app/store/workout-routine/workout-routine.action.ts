@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import ExerciseWorkout from 'src/app/models/exercise-workout.model';
 import Exercise from 'src/app/models/exercise.model';
+import { Update } from '@ngrx/entity';
 
 export const addExercise = createAction(
   '[main-view component] Add Exercise',
@@ -12,15 +13,15 @@ export const addExerciseSuccess = createAction(
 );
 export const removeExercise = createAction(
   '[main-view component] Remove Exercise',
-  props<{ exercise: ExerciseWorkout }>()
+  props<{ exerciseId: number }>()
 );
 export const updateExercise = createAction(
-  '[exercise-workout component] Update Exercise',
+  '[workout-routine component ] Update Exercise Success',
   props<{ exercise: ExerciseWorkout }>()
 );
-export const updateExerciseSuccess = createAction(
+export const updateExerciseSuccesss = createAction(
   '[WorkoutRoutineEffect] Update Exercise Success',
-  props<{ exercise: ExerciseWorkout }>()
+  props<{ exercise: Update<ExerciseWorkout> }>()
 );
 export const removeAll = createAction(
   '[main-view component] remove all exercise'

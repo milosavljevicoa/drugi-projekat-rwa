@@ -12,21 +12,15 @@ import { ExerciseComponent } from './components/exercise/exercise.component';
 import { WorkoutRoutineComponent } from './components/workout-routine/workout-routine.component';
 
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { StoreModule, ActionReducerMap } from '@ngrx/store';
-
-import { exerciseReducer } from './store/workout-routine/workout-routine.reducer';
+import { StoreModule } from '@ngrx/store';
 
 import { AppRoutingModule } from './app-routing.module';
 
 import { environment } from '../environments/environment';
 import { ExerciseWorkoutComponent } from './components/exercise-workout/exercise-workout.component';
 import { EffectsModule } from '@ngrx/effects';
-import { WorkoutRoutineEffects } from './store/workout-routine/workout-routine.effects';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
-
-const reducers: ActionReducerMap<any> = {
-  exercise: exerciseReducer,
-};
+import { WorkoutRoutineModule } from './store/workout-routine/workout-routine.module';
 
 @NgModule({
   declarations: [
@@ -44,13 +38,15 @@ const reducers: ActionReducerMap<any> = {
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
       dataEncapsulation: false,
     }),
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot({}),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
     AppRoutingModule,
-    EffectsModule.forRoot([WorkoutRoutineEffects]),
+    EffectsModule.forRoot([]),
+    StoreModule,
+    WorkoutRoutineModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

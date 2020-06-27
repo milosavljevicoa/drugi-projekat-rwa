@@ -9,6 +9,8 @@ import { debounceTime, switchMap, map, tap } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import * as ExerciseActions from '../../store/workout-routine/workout-routine.action';
 import ExerciseWorkout from 'src/app/models/exercise-workout.model';
+import { AppState } from 'src/app/store';
+import { selectExerciseWorkout } from 'src/app/store/workout-routine/workout-routine.selectors';
 
 @Component({
   selector: 'app-main-view',
@@ -24,12 +26,12 @@ export class MainViewComponent implements OnInit {
 
   constructor(
     private exerciseService: ExerciseService,
-    private exerciseStore: Store<{ exercise: Array<ExerciseWorkout> }>
+    private exerciseStore: Store<AppState>
   ) {}
 
   ngOnInit(): void {
     this.selectedExercisesForWorkout$ = this.exerciseStore.pipe(
-      select('exercise')
+      select(selectExerciseWorkout)
     );
 
     this.searchedExercises$ = new Subject();

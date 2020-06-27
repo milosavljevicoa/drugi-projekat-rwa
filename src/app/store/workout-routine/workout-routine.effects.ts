@@ -8,6 +8,7 @@ import { EMPTY, of, Observable } from 'rxjs';
 import { ExerciseService } from 'src/app/services/exercise.service';
 import Exercise from 'src/app/models/exercise.model';
 import ExerciseWorkout from 'src/app/models/exercise-workout.model';
+import SetsAndReps from 'src/app/models/sets-and-reps.model';
 
 @Injectable()
 export class WorkoutRoutineEffects {
@@ -40,13 +41,16 @@ export class WorkoutRoutineEffects {
       map((action) => action.exercise),
       mergeMap((exerciseToUpdate: ExerciseWorkout) =>
         this.exerciseService
-          .updateSetsAndRepsForExercise(exerciseToUpdate)
+          .updateSetsAndRepsForExercise$(exerciseToUpdate)
           .pipe(map((_) => exerciseToUpdate))
       ),
       mergeMap((updatedExercise: ExerciseWorkout) =>
         of(
-          ExerciseRoutineActions.updateExerciseSuccess({
-            exercise: updatedExercise,
+          ExerciseRoutineActions.updateExerciseSuccesss({
+            exercise: {
+              id: updatedExercise.id,
+              changes: updatedExercise,
+            },
           })
         )
       ),
