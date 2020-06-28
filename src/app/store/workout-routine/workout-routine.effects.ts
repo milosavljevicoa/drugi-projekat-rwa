@@ -8,7 +8,6 @@ import { EMPTY, of, Observable } from 'rxjs';
 import { ExerciseService } from 'src/app/services/exercise.service';
 import Exercise from 'src/app/models/exercise.model';
 import ExerciseWorkout from 'src/app/models/exercise-workout.model';
-import SetsAndReps from 'src/app/models/sets-and-reps.model';
 
 @Injectable()
 export class WorkoutRoutineEffects {
@@ -28,10 +27,18 @@ export class WorkoutRoutineEffects {
         of(
           ExerciseRoutineActions.addExerciseSuccess({
             exercise: exerciseWorkout,
-          })
+          }),
+          ExerciseRoutineActions.increaceNumberOfExercises()
         )
       ),
       catchError(() => EMPTY)
+    )
+  );
+
+  removeExerciseFromStore: Observable<any> = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ExerciseRoutineActions.removeExercise),
+      mergeMap(() => of(ExerciseRoutineActions.decreaseNumberOfExercises()))
     )
   );
 

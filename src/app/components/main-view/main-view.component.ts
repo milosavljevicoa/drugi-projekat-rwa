@@ -10,7 +10,10 @@ import { select, Store } from '@ngrx/store';
 import * as ExerciseActions from '../../store/workout-routine/workout-routine.action';
 import ExerciseWorkout from 'src/app/models/exercise-workout.model';
 import { AppState } from 'src/app/store';
-import { selectExerciseWorkout } from 'src/app/store/workout-routine/workout-routine.selectors';
+import {
+  selectExerciseWorkout,
+  selectNumberOfExercises,
+} from 'src/app/store/workout-routine/workout-routine.selectors';
 
 @Component({
   selector: 'app-main-view',

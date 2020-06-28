@@ -1,0 +1,16 @@
+<nav class="navbar navbar-dark bg-dark">
+  <i class="fas fa-dumbbell exercise-logo"></i>
+
+  <div class="ml-auto mr-3">
+    <a class="navbar-brand mr-4" routerLink="/">
+      Browse exercise
+    </a>
+
+    <a class="navbar-brand" routerLink="/workout">
+      Workout Routine
+      <span class="badge badge-secondary">{{
+        numberOfExercises$ | async
+      }}</span>
+    </a>
+  </div>
+</nav>

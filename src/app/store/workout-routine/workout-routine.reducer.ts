@@ -1,15 +1,13 @@
 import { createReducer, on } from '@ngrx/store';
 import {
-  addExercise,
   addExerciseSuccess,
-  updateExercise,
   removeExercise,
   updateExerciseSuccesss,
+  increaceNumberOfExercises,
+  decreaseNumberOfExercises,
 } from './workout-routine.action';
 import ExerciseWorkout from 'src/app/models/exercise-workout.model';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-
-export const exerciseRoutineKey = 'exerciseSate';
 
 export interface WokroutRoutineState extends EntityState<ExerciseWorkout> {
   numberOfExercises: number;
@@ -27,19 +25,23 @@ export const initialState = exerciseAdapter.getInitialState({
 
 const _exerciseReducer = createReducer(
   initialState,
-  on(addExercise),
   on(addExerciseSuccess, (state, { exercise }) => {
     return exerciseAdapter.addOne(exercise, state);
   }),
-  on(updateExercise),
   on(updateExerciseSuccesss, (state, { exercise }) => {
     return exerciseAdapter.updateOne(exercise, state);
   }),
   on(removeExercise, (state, { exerciseId }) =>
     exerciseAdapter.removeOne(exerciseId, state)
-  )
-  // ),
-  // on(removeAll, () => new Array<ExerciseWorkout>())
+  ),
+  on(increaceNumberOfExercises, (state) => {
+    const newNumberOfExercises = state.numberOfExercises + 1;
+    return { ...state, numberOfExercises: newNumberOfExercises };
+  }),
+  on(decreaseNumberOfExercises, (state) => {
+    const newNumberOfExercises = state.numberOfExercises - 1;
+    return { ...state, numberOfExercises: newNumberOfExercises };
+  })
 );
 
 export function exerciseReducer(state, action) {

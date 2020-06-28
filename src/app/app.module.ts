@@ -21,6 +21,7 @@ import { ExerciseWorkoutComponent } from './components/exercise-workout/exercise
 import { EffectsModule } from '@ngrx/effects';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { WorkoutRoutineModule } from './store/workout-routine/workout-routine.module';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { WorkoutRoutineModule } from './store/workout-routine/workout-routine.mo
     WorkoutRoutineComponent,
     ExerciseWorkoutComponent,
     LoadingSpinnerComponent,
+    NavBarComponent,
   ],
   imports: [
     FormsModule,
