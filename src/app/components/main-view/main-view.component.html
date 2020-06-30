@@ -3,16 +3,16 @@
 <input
   #searchBox
   id="searchBox"
-  (input)="searchExerciseByName(searchBox.value)"
+  (input)="handleSearchExerciseByName(searchBox.value)"
   placeholder="specific exercise"
   class="mb-2 mr-3"
 />
 <h5 class="lead">List of avaliable exercises</h5>
 <app-loading-spinner *ngIf="showLoadingSpinner"></app-loading-spinner>
 <div class="row">
-  <div class="col-md-4 mb-4 mt-4" *ngFor="let excercise of exerciseToDisplay">
+  <div class="col-md-4 mb-4 mt-4" *ngFor="let excercise of exercisesToDisplay">
     <app-exercise
-      (onAddExericse)="addExerciseToRoutine($event)"
+      (onAddExericse)="handleAddExerciseToRoutine($event)"
       [exercise]="excercise"
     ></app-exercise>
   </div>

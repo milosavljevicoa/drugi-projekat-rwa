@@ -41,13 +41,13 @@ export default class SetsAndReps {
 
   incrementReps(index: number): void {
     if (this.isIndexOutOfBoundsForReps(index)) return;
-    if (this._reps.length === this._maxSets) return;
+    if (this._reps.length > this._maxSets) return;
     this._reps[index]++;
   }
 
   decrementReps(index: number): void {
     if (this.isIndexOutOfBoundsForReps(index)) return;
-    if (this._reps[index] === 1) return;
+    if (this._reps[index] < 1) return;
     this._reps[index]--;
   }
 

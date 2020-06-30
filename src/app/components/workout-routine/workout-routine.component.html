@@ -1,16 +1,25 @@
-<div class="">
-  <h4>This is your personal workout routine.</h4>
-  <h4>Every exercise you add will be shown here.</h4>
+<div class="position-relative">
+  <h4 class="mr-5">This is your personal workout routine.</h4>
+  <h4 class="mr-5">Every exercise you add will be shown here.</h4>
+  <button
+    class="btn top-right-absolute"
+    data-toggle="modal"
+    data-target="#infoModal"
+  >
+    <i class="fas fa-info-circle info-icon text-info"></i>
+  </button>
 </div>
 <hr />
 <div class="row">
   <div
     class="col-lg-6"
-    *ngFor="let exerciseWorkout of selectedExercises$ | async"
+    *ngFor="let exerciseWorkout of selectedExercisesForWorkout$ | async"
   >
     <app-exercise-workout
-      (handleUpdateSetsAndRepsForExercise)="updateRepsAndSets($event)"
-      (handleRemoveExerciseFromRoute)="removeExerciseFromWorkoutRoutine($event)"
+      (onUpdateSetsAndRepsForExercise)="handleUpdateRepsAndSets($event)"
+      (onRemoveExerciseFromWorkout)="
+        handleRemoveExerciseFromWorkoutRoutine($event)
+      "
       [exercise]="exerciseWorkout"
     >
     </app-exercise-workout>
@@ -42,7 +51,7 @@
       </div>
       <div class="modal-body">
         With working out you have to progress over time. You can eather increse
-        your sets, reps of effort you put in those reps. <br />
+        your sets, reps or effort you put in those reps. <br />
         Here you can choose your exercises and keep track of how much you
         proress overtime in total. <br />
         <br />

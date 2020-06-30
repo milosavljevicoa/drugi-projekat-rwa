@@ -1,3 +1,9 @@
 .info-icon {
   font-size: 25px;
 }
+
+.top-right-absolute {
+  position: absolute;
+  top: 0;
+  right: 0;
+}

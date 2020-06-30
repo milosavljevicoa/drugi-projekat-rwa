@@ -30,8 +30,7 @@ export class WorkoutRoutineEffects {
           }),
           ExerciseRoutineActions.increaceNumberOfExercises()
         )
-      ),
-      catchError(() => EMPTY)
+      )
     )
   );
 
@@ -60,8 +59,7 @@ export class WorkoutRoutineEffects {
             },
           })
         )
-      ),
-      catchError(() => EMPTY)
+      )
     )
   );
 }

@@ -21,7 +21,7 @@ import {
   styleUrls: ['./main-view.component.css'],
 })
 export class MainViewComponent implements OnInit {
-  public exerciseToDisplay: Array<Exercise>;
+  public exercisesToDisplay: Array<Exercise>;
   public showLoadingSpinner: boolean = true;
 
   private searchedExercises$: Subject<string>;
@@ -42,7 +42,7 @@ export class MainViewComponent implements OnInit {
       .pipe(
         tap((_) => {
           this.showLoadingSpinner = true;
-          this.exerciseToDisplay = [];
+          this.exercisesToDisplay = [];
         }),
         debounceTime(200),
         switchMap((exerciseName: string) => {
@@ -58,10 +58,10 @@ export class MainViewComponent implements OnInit {
       )
       .subscribe((exercises: Array<Exercise>) => {
         this.showLoadingSpinner = false;
-        this.exerciseToDisplay = exercises;
+        this.exercisesToDisplay = exercises;
       });
 
-    this.searchExerciseByName('');
+    this.handleSearchExerciseByName('');
   }
 
   getExercisesToDisplay(
@@ -76,23 +76,23 @@ export class MainViewComponent implements OnInit {
 
   isExerciseInPickedExercises(
     exerciseToCheck: Exercise,
-    pickedExercises: Array<Exercise>
+    selectedExercises: Array<Exercise>
   ): boolean {
-    let isExercisesPicked: boolean = false;
-    pickedExercises.forEach((singleExercisePicked: ExerciseWorkout) => {
+    let isExerciseSelected: boolean = false;
+    selectedExercises.forEach((singleExercisePicked: ExerciseWorkout) => {
       if (exerciseToCheck.id === singleExercisePicked.id) {
-        isExercisesPicked = true;
+        isExerciseSelected = true;
         return;
       }
     });
-    return isExercisesPicked;
+    return isExerciseSelected;
   }
 
-  searchExerciseByName(exerciseName: string) {
+  handleSearchExerciseByName(exerciseName: string) {
     this.searchedExercises$.next(exerciseName);
   }
 
-  addExerciseToRoutine(exercise: Exercise) {
+  handleAddExerciseToRoutine(exercise: Exercise) {
     this.exerciseStore.dispatch(
       ExerciseActions.addExercise({ exercise: exercise })
     );

@@ -15,23 +15,23 @@ import { WokroutRoutineState } from 'src/app/store/workout-routine/workout-routi
   styleUrls: ['./workout-routine.component.css'],
 })
 export class WorkoutRoutineComponent implements OnInit {
-  public selectedExercises$: Observable<Array<ExerciseWorkout>>;
+  public selectedExercisesForWorkout$: Observable<Array<ExerciseWorkout>>;
 
   constructor(private exerciseStore: Store<WokroutRoutineState>) {}
 
   ngOnInit(): void {
-    this.selectedExercises$ = this.exerciseStore.pipe(
+    this.selectedExercisesForWorkout$ = this.exerciseStore.pipe(
       select(selectExerciseWorkout)
     );
   }
 
-  removeExerciseFromWorkoutRoutine(exercise: ExerciseWorkout): void {
+  handleRemoveExerciseFromWorkoutRoutine(exercise: ExerciseWorkout): void {
     this.exerciseStore.dispatch(
       WorkoutActions.removeExercise({ exerciseId: exercise.id })
     );
   }
 
-  updateRepsAndSets(exercise: ExerciseWorkout): void {
+  handleUpdateRepsAndSets(exercise: ExerciseWorkout): void {
     this.exerciseStore.dispatch(
       WorkoutActions.updateExercise({
         exercise,

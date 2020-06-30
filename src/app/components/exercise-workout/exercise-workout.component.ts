@@ -9,10 +9,10 @@ import Exercise from 'src/app/models/exercise.model';
 })
 export class ExerciseWorkoutComponent implements OnInit {
   @Input() exercise: ExerciseWorkout;
-  @Output() handleUpdateSetsAndRepsForExercise: EventEmitter<
+  @Output() onUpdateSetsAndRepsForExercise: EventEmitter<
     ExerciseWorkout
   > = new EventEmitter();
-  @Output() handleRemoveExerciseFromRoute: EventEmitter<
+  @Output() onRemoveExerciseFromWorkout: EventEmitter<
     ExerciseWorkout
   > = new EventEmitter();
 
@@ -51,10 +51,10 @@ export class ExerciseWorkoutComponent implements OnInit {
   }
 
   updateSetsAndRepsForExercise(): void {
-    this.handleUpdateSetsAndRepsForExercise.emit(this.exerciseThatIsDisplayed);
+    this.onUpdateSetsAndRepsForExercise.emit(this.exerciseThatIsDisplayed);
   }
 
   removeExerciseFromWorkout(): void {
-    this.handleRemoveExerciseFromRoute.emit(this.exerciseThatIsDisplayed);
+    this.onRemoveExerciseFromWorkout.emit(this.exerciseThatIsDisplayed);
   }
 }
